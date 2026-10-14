@@ -1,0 +1,294 @@
+/**
+ * Creative Opus backend
+ * Google Apps Script web app + Google Sheets as the database + OPay Checkout (Nigeria).
+ *
+ * Secrets live in Script Properties (Project Settings), never in this file or on GitHub:
+ *   SITE_URL          e.g. https://yourname.github.io/creative-opus/   (must end with a slash)
+ *   OPAY_MODE         test  or  live
+ *   OPAY_MERCHANT_ID  from the OPay merchant dashboard
+ *   OPAY_PUBLIC_KEY   from the OPay merchant dashboard (used to create payments)
+ *   OPAY_SECRET_KEY   from the OPay merchant dashboard (used to verify payments)
+ *   FEE_NGN           membership fee in naira, e.g. 5000
+ *   PAYMENT_REQUIRED  true or false
+ *   OWNER_EMAIL       where contact-form messages are sent
+ *   SHEET_ID          optional: only if this script is NOT bound to the spreadsheet
+ * PEPPER is created for you by setup().
+ */
+
+const SHEETS = {
+  Members:  ['email', 'name', 'org', 'role', 'salt', 'hash', 'createdAt', 'paid', 'paidAt'],
+  Results:  ['email', 'testId', 'resultJson', 'completedAt'],
+  Payments: ['reference', 'email', 'amountKobo', 'currency', 'status', 'orderNo', 'createdAt', 'updatedAt'],
+  Sessions: ['tokenHash', 'email', 'expires'],
+  Contact:  ['createdAt', 'name', 'email', 'message']
+};
+const TESTS = ['johari', 'disc', 'blind', 'eq', 'strengths'];
+const ROLES = ['Pastor or ministry leader', 'Church staff', 'Nonprofit leader', 'Business leader', 'Other'];
+
+/* ---------- run this once from the editor ---------- */
+function setup() {
+  Object.keys(SHEETS).forEach(sh_);
+  const p = PropertiesService.getScriptProperties();
+  if (!p.getProperty('PEPPER')) p.setProperty('PEPPER', Utilities.getUuid() + Utilities.getUuid());
+  Logger.log('Sheets ready. Now add the other Script Properties listed at the top of this file.');
+}
+
+/* ---------- entry points ---------- */
+function doGet() {
+  return out_({ ok: true, service: 'creative-opus' });
+}
+
+function doPost(e) {
+  let body;
+  try { body = JSON.parse((e.postData && e.postData.contents) || '{}'); }
+  catch (err) { return out_({ ok: false, error: 'Bad request.' }); }
+
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(25000);
+    // OPay callback notification (no "action" field). We never trust its content:
+    // we only read the reference and ask OPay directly for the real status.
+    if (!body.action && body.payload && body.payload.reference) {
+      syncPayment_(String(body.payload.reference));
+      return out_({ ok: true });
+    }
+    const fn = ACTIONS[body.action];
+    if (!fn) return out_({ ok: false, error: 'Unknown action.' });
+    return out_(fn(body));
+  } catch (err) {
+    if (err && err.appError) return out_({ ok: false, error: err.appError });
+    console.error(err && err.stack ? err.stack : err);
+    return out_({ ok: false, error: 'Something went wrong. Please try again.' });
+  } finally {
+    try { lock.releaseLock(); } catch (x) {}
+  }
+}
+
+const ACTIONS = {
+  config: function () {
+    return { ok: true, paymentRequired: paymentRequired_(), feeNGN: Number(cfg_('FEE_NGN', '0')) };
+  },
+
+  register: function (b) {
+    const name = clean_(b.name, 80), org = clean_(b.org, 120), role = clean_(b.role, 60);
+    const email = String(b.email || '').trim().toLowerCase().slice(0, 120);
+    const pw = String(b.password || '');
+    if (!name) fail_('Enter your full name.');
+    if (!/^\S+@\S+\.\S+$/.test(email)) fail_('Enter a valid email address.');
+    if (ROLES.indexOf(role) < 0) fail_('Choose your role.');
+    if (pw.length < 8 || pw.length > 100) fail_('Use a password with 8 to 100 characters.');
+    if (find_('Members', 'email', email)) fail_('That email already has an account. Sign in instead.');
+    const salt = Utilities.getUuid();
+    sh_('Members').appendRow([email, name, org, role, salt, hash_(pw, salt), new Date().toISOString(), false, '']);
+    const m = find_('Members', 'email', email).obj;
+    return { ok: true, token: newSession_(email), profile: profile_(m), results: {} };
+  },
+
+  login: function (b) {
+    const email = String(b.email || '').trim().toLowerCase().slice(0, 120);
+    const bump = throttle_('login:' + email);
+    const r = find_('Members', 'email', email);
+    if (!r || r.obj.hash !== hash_(String(b.password || ''), r.obj.salt)) {
+      bump();
+      fail_('Email or password is incorrect. Check both, or register if you are new.');
+    }
+    return { ok: true, token: newSession_(email), profile: profile_(r.obj), results: results_(email) };
+  },
+
+  me: function (b) {
+    const m = auth_(b.token);
+    return { ok: true, profile: profile_(m), results: results_(m.email) };
+  },
+
+  logout: function (b) {
+    const r = b.token ? find_('Sessions', 'tokenHash', sha256_(b.token)) : null;
+    if (r) r.sheet.deleteRow(r.row);
+    return { ok: true };
+  },
+
+  saveResult: function (b) {
+    const m = auth_(b.token);
+    if (paymentRequired_() && !isPaid_(m)) fail_('Activate your membership to take the assessments.');
+    const testId = String(b.testId || '');
+    if (TESTS.indexOf(testId) < 0) fail_('Unknown assessment.');
+    if (results_(m.email)[testId]) fail_('You have already completed this assessment. Each one can be taken once.');
+    const json = JSON.stringify(b.result || {});
+    if (json.length > 6000) fail_('That result is too large to save.');
+    sh_('Results').appendRow([m.email, testId, json, new Date().toISOString()]);
+    return { ok: true };
+  },
+
+  createPayment: function (b) {
+    const m = auth_(b.token);
+    if (isPaid_(m)) fail_('Your membership is already active.');
+    const fee = Number(cfg_('FEE_NGN', '0'));
+    if (!(fee > 0)) fail_('Membership payments are not set up yet. Please contact us.');
+    const amountKobo = Math.round(fee * 100);
+    const reference = 'CO' + Utilities.getUuid().replace(/-/g, '').slice(0, 22);
+    const data = opayCreate_(m, reference, amountKobo);
+    const now = new Date().toISOString();
+    sh_('Payments').appendRow([reference, m.email, amountKobo, 'NGN', data.status || 'INITIAL', data.orderNo || '', now, now]);
+    return { ok: true, cashierUrl: data.cashierUrl, reference: reference };
+  },
+
+  verifyPayment: function (b) {
+    const m = auth_(b.token);
+    const ref = String(b.reference || '');
+    const p = find_('Payments', 'reference', ref);
+    if (!p || String(p.obj.email).toLowerCase() !== m.email) fail_('We could not find that payment.');
+    const status = syncPayment_(ref);
+    return { ok: true, status: status, paid: status === 'SUCCESS' };
+  },
+
+  contact: function (b) {
+    const name = clean_(b.name, 80), email = clean_(b.email, 120), msg = clean_(b.message, 2000);
+    if (!name || !/^\S+@\S+\.\S+$/.test(email) || !msg) fail_('Fill in your name, a valid email and a message.');
+    sh_('Contact').appendRow([new Date().toISOString(), name, email, msg]);
+    const to = cfg_('OWNER_EMAIL', '');
+    if (to) {
+      try { MailApp.sendEmail({ to: to, replyTo: email, subject: 'Website enquiry from ' + name, body: msg + '\n\n' + name + '\n' + email }); }
+      catch (err) { console.error(err); }
+    }
+    return { ok: true };
+  }
+};
+
+/* ---------- OPay ---------- */
+function opayBase_() {
+  return cfg_('OPAY_MODE', 'test') === 'live' ? 'https://liveapi.opaycheckout.com' : 'https://testapi.opaycheckout.com';
+}
+
+function opayCreate_(m, reference, amountKobo) {
+  const site = cfg_('SITE_URL', '');
+  if (!site) fail_('Payments are not set up yet. Please contact us.');
+  const payload = {
+    country: 'NG',
+    reference: reference,
+    amount: { total: amountKobo, currency: 'NGN' },
+    returnUrl: site + '?payment=return&ref=' + reference,
+    cancelUrl: site + '?payment=cancel',
+    callbackUrl: ScriptApp.getService().getUrl(),
+    expireAt: 30,
+    product: { name: "Creative Opus Members' Room", description: 'One-time membership: five leadership assessments' },
+    userInfo: { userId: m.email, userEmail: m.email, userName: m.name }
+  };
+  const res = UrlFetchApp.fetch(opayBase_() + '/api/v1/international/cashier/create', {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { Authorization: 'Bearer ' + cfg_('OPAY_PUBLIC_KEY', ''), MerchantId: cfg_('OPAY_MERCHANT_ID', '') },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  });
+  let j = {};
+  try { j = JSON.parse(res.getContentText()); } catch (e) {}
+  if (j.code !== '00000' || !j.data || !j.data.cashierUrl) {
+    console.error('OPay create failed: ' + res.getContentText());
+    fail_('We could not start the payment. Please try again shortly.');
+  }
+  return j.data;
+}
+
+// Ask OPay for the real status (HMAC-SHA512 of the exact JSON body, signed with the secret key).
+function opayStatus_(reference) {
+  const bodyStr = JSON.stringify({ reference: reference, country: 'NG' });
+  const sig = hex_(Utilities.computeHmacSignature(Utilities.MacAlgorithm.HMAC_SHA_512, bodyStr, cfg_('OPAY_SECRET_KEY', '')));
+  const res = UrlFetchApp.fetch(opayBase_() + '/api/v1/international/cashier/status', {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { Authorization: 'Bearer ' + sig, MerchantId: cfg_('OPAY_MERCHANT_ID', '') },
+    payload: bodyStr,
+    muteHttpExceptions: true
+  });
+  let j = {};
+  try { j = JSON.parse(res.getContentText()); } catch (e) {}
+  if (j.code !== '00000' || !j.data) console.error('OPay status failed: ' + res.getContentText());
+  return j;
+}
+
+// Looks up the payment at OPay, records the outcome, and activates the member only on a verified SUCCESS.
+function syncPayment_(reference) {
+  const p = find_('Payments', 'reference', reference);
+  if (!p) return 'NOT_FOUND';
+  if (p.obj.status === 'SUCCESS') return 'SUCCESS';
+  const j = opayStatus_(reference);
+  if (j.code !== '00000' || !j.data) return p.obj.status || 'PENDING';
+  const d = j.data;
+  let status = String(d.status || 'PENDING');
+  const amountOk = d.amount && Number(d.amount.total) === Number(p.obj.amountKobo) && d.amount.currency === 'NGN';
+  if (status === 'SUCCESS' && !amountOk) { console.error('Amount mismatch for ' + reference); status = 'FAIL'; }
+  setRow_(p, { status: status, orderNo: d.orderNo || p.obj.orderNo, updatedAt: new Date().toISOString() });
+  if (status === 'SUCCESS') {
+    const m = find_('Members', 'email', String(p.obj.email).toLowerCase());
+    if (m) setRow_(m, { paid: true, paidAt: new Date().toISOString() });
+  }
+  return status;
+}
+
+/* ---------- sheet helpers ---------- */
+function ss_() {
+  const id = cfg_('SHEET_ID', '');
+  return id ? SpreadsheetApp.openById(id) : SpreadsheetApp.getActiveSpreadsheet();
+}
+function sh_(name) {
+  const book = ss_();
+  let s = book.getSheetByName(name);
+  if (!s) { s = book.insertSheet(name); s.appendRow(SHEETS[name]); s.setFrozenRows(1); }
+  return s;
+}
+function find_(name, col, val) {
+  const s = sh_(name), v = s.getDataRange().getValues(), h = v[0], c = h.indexOf(col);
+  for (let i = 1; i < v.length; i++) {
+    if (String(v[i][c]).toLowerCase() === String(val).toLowerCase()) {
+      const obj = {}; h.forEach(function (k, j) { obj[k] = v[i][j]; });
+      return { sheet: s, row: i + 1, header: h, obj: obj };
+    }
+  }
+  return null;
+}
+function setRow_(r, fields) {
+  Object.keys(fields).forEach(function (k) { r.sheet.getRange(r.row, r.header.indexOf(k) + 1).setValue(fields[k]); });
+}
+function results_(email) {
+  const v = sh_('Results').getDataRange().getValues(), out = {};
+  for (let i = 1; i < v.length; i++) {
+    if (String(v[i][0]).toLowerCase() === email) { try { out[v[i][1]] = JSON.parse(v[i][2]); } catch (e) {} }
+  }
+  return out;
+}
+
+/* ---------- auth helpers ---------- */
+function hex_(bytes) { return bytes.map(function (b) { return ('0' + (b & 0xff).toString(16)).slice(-2); }).join(''); }
+function sha256_(s) { return hex_(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, s, Utilities.Charset.UTF_8)); }
+function hash_(pw, salt) {
+  let h = pw + salt + cfg_('PEPPER', '');
+  for (let i = 0; i < 1000; i++) h = sha256_(h + salt);
+  return h;
+}
+function newSession_(email) {
+  const token = Utilities.getUuid() + Utilities.getUuid();
+  sh_('Sessions').appendRow([sha256_(token), email, Date.now() + 7 * 24 * 3600 * 1000]);
+  return token;
+}
+function auth_(token) {
+  if (!token) fail_('Please sign in.');
+  const s = find_('Sessions', 'tokenHash', sha256_(String(token)));
+  if (!s || Number(s.obj.expires) < Date.now()) fail_('Your session has expired. Please sign in again.');
+  const m = find_('Members', 'email', s.obj.email);
+  if (!m) fail_('Please sign in.');
+  return m.obj;
+}
+function throttle_(key) {
+  const c = CacheService.getScriptCache(), n = Number(c.get(key) || 0);
+  if (n >= 5) fail_('Too many attempts. Wait 15 minutes and try again.');
+  return function () { c.put(key, String(n + 1), 900); };
+}
+
+/* ---------- small utilities ---------- */
+function profile_(m) { return { name: m.name, email: m.email, org: m.org, role: m.role, paid: isPaid_(m) }; }
+function isPaid_(m) { return m.paid === true || String(m.paid).toUpperCase() === 'TRUE'; }
+function paymentRequired_() { return cfg_('PAYMENT_REQUIRED', 'true') === 'true'; }
+function cfg_(k, d) { const v = PropertiesService.getScriptProperties().getProperty(k); return v === null ? d : v; }
+// Trim, cap length, and neutralise spreadsheet formula injection.
+function clean_(s, max) { return String(s || '').trim().slice(0, max).replace(/^[=+\-@]/, "'$&"); }
+function fail_(msg) { throw { appError: msg }; }
+function out_(obj) { return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON); }

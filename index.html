@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#14123A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%20role%3D%22img%22%20aria-label%3D%22Creative%20Opus%20app%20icon%22%20xmlns%3Ac2pa%3D%22http%3A//c2pa.org/manifest%22%3E%3Cmetadata%3E%3Cc2pa%3Amanifest%3EAAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo3OGUyODI4YS02OTY5LTRjOWItYjdlNi00NWNhZWQ4NzNkZGIAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaIale0GADH3xysz/IRvJCIwAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo0YTIyYjdiMy01YmQ2LTQ0YjktYjg2OS05MzAxNmY1ZTBiNGVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoTNXbvCpze/nOXQiGJzFlHQAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggpyS3LYeFY64yXJ%2BsCx9QOg4kKljOeiuO/RR%2Bg6vfTdGkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaKf9W5rbce1lD6FdmbTZEGgAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRNAAAAAAAAAAAAAAAAAGRoYXNoWCDT80798Tdnjhz7Ai0Kg4b9WXqWnf%2BL655TFxcadZXvZWRuYW1lbmp1bWJmIG1hbmlmZXN0amV4Y2x1c2lvbnOBomVzdGFydBisZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjc4ZTI4MjhhLTY5NjktNGM5Yi1iN2U2LTQ1Y2FlZDg3M2RkYi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjdhNmU1ZGM5LTk1OTAtNDM4Ny05YzRmLTg3MTFlMTI5M2I1ZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCCnJLcth4VjrjJcn6wLH1A6DiQqWM56K479FH6Dq99N0aJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggyQooQ4Hurp3vhUUe7JWELmRa8HOrXKWc0wUkvioTX7OiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg2OnvYHVWnee3P4MPkoi3RwGuGOy%2BD3H6grIkkqUeNw90Y2xhaW1fZ2VuZXJhdG9yX2luZm%2BjZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj%2BOPEz5o%2BnMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1%2BUCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9%2B1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQJtrgx0YPM3WD8uqvVurkKeawNIUYgSYqSeJq9qzSQZFLvqwvUBvygePs4WxEHnCGswjT9xYEZOizOcLcBCGtdk%3D%3C/c2pa%3Amanifest%3E%3C/metadata%3E%3Ctitle%3ECreative%20Opus%20app%20icon%3C/title%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20rx%3D%22112%22%20fill%3D%22%2314123A%22/%3E%3Cg%20transform%3D%22translate%28126%2C98%29%20scale%282.6%29%22%3E%0A%3Cpath%20d%3D%22M8%20118V54Q8%2024%2050%203Q92%2024%2092%2054V118%22%20fill%3D%22none%22%20stroke%3D%22%23E3B341%22%20stroke-width%3D%225.5%22%20stroke-linejoin%3D%22round%22/%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2219.5%22%20fill%3D%22none%22%20stroke%3D%22%23E3B341%22%20stroke-width%3D%223%22/%3E%0A%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2211.5%22%20fill%3D%22%23E3B341%22/%3E%0A%3Cpath%20d%3D%22M29%20118V93Q29%2077%2050%2068Q71%2077%2071%2093V118Z%22%20fill%3D%22%23EDEFF7%22/%3E%0A%3C/g%3E%3C/svg%3E">
+<title>Creative Opus | Leadership and brand consultancy for churches and mission-driven organisations</title>
+<meta name="description" content="Creative Opus helps churches and mission-driven leaders craft their God-given vision into lasting brand identity, communication and leadership.">
+<style>
+:root{
+  --ink:#14123A; --sapphire:#2B3A8C; --ruby:#9B2C4F; --gold:#E3B341; --mist:#EDEFF7; --violet:#3B2F8F; --teal:#1F6F8B;
+  --bg:#F5F6FB; --surface:#FFFFFF; --text:#14123A; --muted:#54567A; --line:rgba(20,18,58,.16);
+  --accent:#2B3A8C; --on-accent:#FFFFFF;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0E0D26; --surface:#17153D; --text:#EDEFF7; --muted:#A9ABD0; --line:rgba(237,239,247,.18); --accent:#E3B341; --on-accent:#14123A; }
+}
+.night{ --bg:#14123A; --surface:#1D1A52; --text:#EDEFF7; --muted:#B4B6DA; --line:rgba(237,239,247,.2); --accent:#E3B341; --on-accent:#14123A; background:var(--bg); color:var(--text); }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.6}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;margin:0 0 .5em;letter-spacing:-.01em}
+h1{font-size:clamp(2.5rem,10vw,4.8rem)}
+h2{font-size:clamp(1.85rem,6.4vw,2.9rem)}
+h3{font-size:1.3rem}
+p{margin:0 0 1em;max-width:62ch}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.sec{padding:72px 0}
+.lead{font-size:1.12rem;color:var(--muted)}
+.muted{color:var(--muted)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--gold);color:var(--ink);padding:10px 14px;z-index:100;font-weight:600}
+.skip:focus{left:8px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:999px;border:2px solid var(--accent);background:var(--accent);color:var(--on-accent);font:600 1rem var(--sans);text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+
+/* header */
+header.top{position:sticky;top:0;z-index:40;background:var(--ink);color:var(--mist);border-bottom:1px solid rgba(237,239,247,.14);padding-top:env(safe-area-inset-top)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--serif);font-size:1.3rem;font-weight:600}
+.nav-links{display:none;gap:20px}
+.nav-links a{text-decoration:none;font-size:.97rem;opacity:.88}
+.nav-links a:hover{opacity:1;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:6px}
+.menu-btn{background:none;border:1px solid rgba(237,239,247,.3);color:var(--mist);height:44px;padding:0 16px;border-radius:999px;font:600 .95rem var(--sans);cursor:pointer}
+.head-cta{display:none}
+.drawer{position:fixed;inset:0;z-index:60;background:var(--ink);color:var(--mist);padding:20px;display:none;flex-direction:column}
+.drawer.open{display:flex}
+.drawer .bar{padding:0}
+.drawer nav{display:flex;flex-direction:column;margin-top:24px}
+.drawer nav a{font-family:var(--serif);font-size:2rem;text-decoration:none;padding:14px 0;border-bottom:1px solid rgba(237,239,247,.14)}
+.drawer .btn{margin-top:28px;background:var(--gold);border-color:var(--gold);color:var(--ink)}
+@media (min-width:900px){
+  .nav-links{display:flex}.menu-btn{display:none}
+  .head-cta{display:inline-flex;min-height:42px;background:var(--gold);border-color:var(--gold);color:var(--ink)}
+}
+
+/* hero */
+.hero{padding:40px 0 64px;overflow:hidden}
+.hero .wrap{display:grid;gap:36px;align-items:center}
+.hero p{color:var(--muted)}
+.hero h1{margin-bottom:.4em}
+.hero .btn.primary{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.hero .btn.ghost{color:var(--mist)}
+.glass{width:min(78vw,340px);margin:0 auto;display:block;filter:drop-shadow(0 18px 40px rgba(0,0,0,.45))}
+.glass .glow{animation:glow 7s ease-in-out infinite alternate}
+@keyframes glow{from{opacity:.35}to{opacity:.95}}
+@media (prefers-reduced-motion:reduce){.glass .glow{animation:none;opacity:.7}html{scroll-behavior:auto}}
+@media (min-width:900px){
+  .hero{padding:72px 0 96px}
+  .hero .wrap{grid-template-columns:1.15fr .85fr}
+  .glass{width:360px}
+}
+
+/* about */
+.about-grid{display:grid;gap:28px}
+.pillars{display:grid;gap:0;border-top:1px solid var(--line)}
+.pillars div{padding:18px 0;border-bottom:1px solid var(--line)}
+.pillars h3{margin-bottom:.2em}
+.pillars p{margin:0;color:var(--muted)}
+@media (min-width:900px){.about-grid{grid-template-columns:1fr 1fr;gap:64px}}
+
+/* founder */
+.founder{display:grid;gap:32px;align-items:center}
+.photo{width:min(76vw,300px);aspect-ratio:3/4;margin:0 auto;border-radius:150px 150px 14px 14px;overflow:hidden;border:3px solid var(--gold);background:var(--surface);position:relative}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo.empty img{display:none}
+.photo.empty::after{content:"Add your photo at assets/founder.jpg";position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted);font-size:.95rem}
+.founder blockquote{margin:22px 0 0;padding-left:18px;border-left:3px solid var(--gold);font-family:var(--serif);font-size:1.25rem;line-height:1.4}
+@media (min-width:900px){.founder{grid-template-columns:.8fr 1.2fr;gap:64px}.photo{width:340px}}
+
+/* archetype */
+.arch-grid{display:grid;gap:32px}
+.facts{margin:0;border-top:1px solid var(--line)}
+.facts div{display:grid;grid-template-columns:7.5rem 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.facts dt{font-weight:600}
+.facts dd{margin:0;color:var(--muted)}
+.arch-grid{max-width:760px}
+
+/* values window */
+.window{max-width:520px;margin:32px auto 0;border:2px solid var(--line);border-radius:220px 220px 0 0;overflow:hidden;background:var(--line);display:grid;gap:2px}
+.window .rose{background:var(--surface);padding:34px 20px 22px;text-align:center}
+.window .rose svg{width:84px;height:84px}
+.panes{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.pane{background:var(--surface);padding:18px 16px 22px}
+.pane h3{font-size:1.08rem;margin-bottom:.3em}
+.pane p{font-size:.92rem;color:var(--muted);margin:0}
+.mv{display:grid;gap:24px;margin-top:28px}
+.mv blockquote{margin:0;padding:0 0 0 18px;border-left:3px solid var(--gold)}
+.mv blockquote p{margin:0}
+.mv strong{font-family:var(--serif);font-size:1.15rem;display:block;margin-bottom:.3em}
+@media (min-width:900px){.mv{grid-template-columns:1fr 1fr;gap:48px}}
+
+/* services */
+details.svc{border-top:1px solid var(--line)}
+details.svc:last-of-type{border-bottom:1px solid var(--line)}
+details.svc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;font-family:var(--serif);font-size:1.4rem;font-weight:600;min-height:64px}
+details.svc summary::-webkit-details-marker{display:none}
+details.svc summary::after{content:"+";font:400 1.8rem var(--sans);color:var(--accent);transition:transform .2s}
+details.svc[open] summary::after{transform:rotate(45deg)}
+details.svc .body{padding:0 0 24px;color:var(--muted)}
+details.svc ul{margin:0 0 0 1.1em;padding:0}
+@media (prefers-reduced-motion:reduce){details.svc summary::after{transition:none}}
+
+/* process */
+ol.steps{list-style:none;margin:32px 0 0;padding:0;counter-reset:s;display:grid;gap:0;border-left:2px solid var(--line)}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 30px 28px}
+ol.steps li::before{content:counter(s);position:absolute;left:-17px;top:0;width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--ink);font-weight:700;display:grid;place-items:center;font-size:.95rem}
+ol.steps h3{margin-bottom:.2em}
+ol.steps p{margin:0;color:var(--muted)}
+
+/* members */
+.tests{margin:28px 0 8px;border-top:1px solid var(--line)}
+.tests div{padding:18px 0;border-bottom:1px solid var(--line);display:grid;gap:2px}
+.tests b{font-family:var(--serif);font-size:1.2rem;font-weight:600}
+.tests span{color:var(--muted);font-size:.97rem}
+
+/* contact */
+form.contact{display:grid;gap:14px;max-width:560px}
+label{display:block;font-weight:600;font-size:.95rem;margin-bottom:6px}
+input,select,textarea{width:100%;font:400 16px var(--sans);color:var(--text);background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;min-height:48px}
+textarea{min-height:120px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+.night input,.night select,.night textarea{background:rgba(255,255,255,.06)}
+.err{background:rgba(155,44,79,.14);border:1px solid var(--ruby);color:var(--text);padding:12px 14px;border-radius:12px;font-size:.95rem}
+.night .err{background:rgba(155,44,79,.35)}
+footer{background:var(--ink);color:var(--mist);padding:44px 0 calc(36px + env(safe-area-inset-bottom))}
+footer p{color:#B4B6DA;margin:.4em 0 0}
+
+/* portal */
+.portal{position:fixed;inset:0;z-index:80;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.portal[hidden]{display:none}
+.portal .pbar{position:sticky;top:0;background:var(--ink);border-bottom:1px solid var(--line);z-index:2;padding-top:env(safe-area-inset-top)}
+.portal .pbar .bar{height:60px}
+.pbody{padding-top:28px;padding-bottom:60px;max-width:640px;outline:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,.07);border-radius:999px;padding:4px;margin:0 0 22px}
+.tabs button{min-height:44px;border:0;border-radius:999px;background:transparent;color:var(--text);font:600 .97rem var(--sans);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--gold);color:var(--ink)}
+.stack{display:grid;gap:14px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.93rem;color:var(--muted)}
+.check input{width:22px;min-height:22px;margin-top:2px}
+.progress{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin:6px 0 24px}
+.progress i{display:block;height:100%;background:var(--gold)}
+.opt{display:block;width:100%;text-align:left;margin-bottom:10px;padding:16px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);color:var(--text);font:400 1rem/1.4 var(--sans);cursor:pointer;min-height:56px}
+.opt:hover{border-color:var(--gold)}
+.opt[aria-pressed="true"],.opt.on{border-color:var(--gold);background:rgba(227,179,65,.16)}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.scale .opt{text-align:center;padding:12px 2px;margin:0;font-size:.82rem;min-height:72px;display:grid;align-content:center;gap:4px}
+.scale .opt b{font-size:1.2rem;font-family:var(--serif)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 20px}
+.chip{min-height:46px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--text);font:500 1rem var(--sans);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.trow{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--line)}
+.trow:first-child{border-top:1px solid var(--line)}
+.trow b{font-family:var(--serif);font-size:1.15rem;font-weight:600;display:block}
+.trow small{color:var(--muted);display:block;font-size:.88rem}
+.done{color:var(--gold);font-weight:600;font-size:.9rem}
+.btn.sm{min-height:44px;padding:0 18px;font-size:.93rem;white-space:nowrap}
+.night .btn:not(.ghost){background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.night .btn.ghost{color:var(--mist)}
+.bar-row{margin:14px 0}
+.bar-row .l{display:flex;justify-content:space-between;font-size:.97rem;margin-bottom:6px}
+.bar-row .t{height:12px;border-radius:12px;background:var(--line);overflow:hidden}
+.bar-row .t i{display:block;height:100%;background:linear-gradient(90deg,var(--sapphire),var(--gold));border-radius:12px}
+.jo{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border-radius:14px;overflow:hidden;margin:16px 0}
+.jo div{background:var(--surface);padding:14px;font-size:.88rem;min-height:120px}
+.jo b{display:block;font-family:var(--serif);font-size:1.02rem;margin-bottom:6px}
+.jo span{color:var(--muted)}
+.note{font-size:.88rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="Creative Opus home">
+      <svg width="24" height="29" viewBox="0 0 100 120" aria-hidden="true"><path d="M8 118V54Q8 24 50 3Q92 24 92 54V118" fill="none" stroke="#EDEFF7" stroke-width="7" stroke-linejoin="round"/><circle cx="50" cy="50" r="19.5" fill="none" stroke="#E3B341" stroke-width="4"/><circle cx="50" cy="50" r="11.5" fill="#E3B341"/><path d="M29 118V93Q29 77 50 68Q71 77 71 93V118Z" fill="#E3B341"/></svg>
+      Creative Opus
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#about">Who we are</a><a href="#founder">Founder</a><a href="#archetype">Our character</a><a href="#services">Services</a><a href="#process">How we work</a><a href="#members">Members' Room</a><a href="#contact">Contact</a>
+    </nav>
+    <div class="row" style="flex-wrap:nowrap;align-items:center">
+      <button class="btn head-cta" data-open-portal>Members' Room</button>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="drawer">Menu</button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Site menu">
+  <div class="bar"><span class="brand"><svg width="24" height="29" viewBox="0 0 100 120" aria-hidden="true"><path d="M8 118V54Q8 24 50 3Q92 24 92 54V118" fill="none" stroke="#EDEFF7" stroke-width="7" stroke-linejoin="round"/><circle cx="50" cy="50" r="19.5" fill="none" stroke="#E3B341" stroke-width="4"/><circle cx="50" cy="50" r="11.5" fill="#E3B341"/><path d="M29 118V93Q29 77 50 68Q71 77 71 93V118Z" fill="#E3B341"/></svg>Creative Opus</span><button class="menu-btn" id="menuClose">Close</button></div>
+  <nav aria-label="Mobile">
+    <a href="#about">Who we are</a><a href="#founder">Founder</a><a href="#archetype">Our character</a><a href="#services">Services</a><a href="#process">How we work</a><a href="#members">Members' Room</a><a href="#contact">Contact</a>
+  </nav>
+  <button class="btn" data-open-portal>Join the Members' Room</button>
+</div>
+
+<main id="main">
+<!-- HERO -->
+<section class="hero night" id="top">
+  <div class="wrap">
+    <div>
+      <h1>Your ministry. Your opus.</h1>
+      <p class="lead" style="color:#C9CBEA">Creative Opus is a leadership and brand consultancy. We help churches and mission-driven organisations turn a God-given vision into a clear identity, a confident message and leaders who can carry both.</p>
+      <div class="row">
+        <button class="btn primary" data-open-portal>Join the Members' Room</button>
+        <a class="btn ghost" href="#services">See what we do</a>
+      </div>
+    </div>
+    <svg class="glass" viewBox="0 0 320 440" role="img" aria-label="A stained glass arch window in sapphire, ruby and gold">
+      <defs>
+        <clipPath id="arch"><path d="M16 436V160Q16 58 160 6Q304 58 304 160V436Z"/></clipPath>
+        <radialGradient id="sun" cx="50%" cy="28%" r="60%"><stop offset="0" stop-color="#FFF3C4"/><stop offset=".45" stop-color="#E3B341" stop-opacity=".55"/><stop offset="1" stop-color="#E3B341" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g clip-path="url(#arch)">
+        <rect x="0" y="0" width="320" height="170" fill="#3B2F8F"/>
+        <rect x="0" y="170" width="160" height="120" fill="#E3B341"/>
+        <rect x="160" y="170" width="160" height="120" fill="#2B3A8C"/>
+        <rect x="0" y="290" width="160" height="150" fill="#2B3A8C"/>
+        <rect x="160" y="290" width="160" height="150" fill="#9B2C4F"/>
+        <path d="M0 170L160 170 80 290Z" fill="#9B2C4F" opacity=".55"/>
+        <path d="M320 170L160 170 240 290Z" fill="#1F6F8B" opacity=".7"/>
+        <circle cx="160" cy="112" r="52" fill="#14123A"/>
+        <circle cx="160" cy="112" r="46" fill="#9B2C4F"/>
+        <g fill="#E3B341">
+          <circle cx="160" cy="80" r="9"/><circle cx="160" cy="144" r="9"/><circle cx="128" cy="112" r="9"/><circle cx="192" cy="112" r="9"/>
+          <circle cx="137" cy="89" r="7" fill="#1F6F8B"/><circle cx="183" cy="89" r="7" fill="#1F6F8B"/><circle cx="137" cy="135" r="7" fill="#1F6F8B"/><circle cx="183" cy="135" r="7" fill="#1F6F8B"/>
+        </g>
+        <circle cx="160" cy="112" r="14" fill="#FFF3C4"/>
+        <g stroke="#14123A" stroke-width="6" fill="none"><path d="M160 164V440"/><path d="M0 170H320"/><path d="M0 290H320"/><path d="M0 230H320" stroke-width="3"/><path d="M80 170V440" stroke-width="3"/><path d="M240 170V440" stroke-width="3"/></g>
+        <rect class="glow" width="320" height="440" fill="url(#sun)"/>
+      </g>
+      <path d="M16 436V160Q16 58 160 6Q304 58 304 160V436Z" fill="none" stroke="#14123A" stroke-width="8"/>
+      <path d="M16 436V160Q16 58 160 6Q304 58 304 160V436Z" fill="none" stroke="#E3B341" stroke-width="2"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="sec" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <h2>Who we are</h2>
+      <p class="lead">Creative Opus is a consultancy that helps churches and mission-driven organisations craft their God-given vision into meaningful, lasting work.</p>
+      <p>We partner with ministries to design brand identities, communication strategies and creative assets that reflect faith, purpose and eternal impact. We also grow the leaders behind them, because a clear brand needs a self-aware leader to live it out.</p>
+      <p>We don't just build brands. We help you create your opus: your legacy, your masterpiece, for the Kingdom.</p>
+    </div>
+    <div class="pillars">
+      <div><h3>The word opus</h3><p>Latin for "work" or "labour". In music and art it names the defining work of a lifetime.</p></div>
+      <div><h3>What we believe</h3><p>Every ministry carries a God-given vision. Our job is to steward it, not to invent it.</p></div>
+      <div><h3>What you get</h3><p>A story people recognise, a message they remember and leaders ready to deliver it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="sec night" id="founder">
+  <div class="wrap founder">
+    <div class="photo" id="founderPhoto"><img src="assets/founder.jpg" alt="Portrait of the founder of Creative Opus" width="600" height="800" loading="lazy"></div>
+    <div>
+      <h2>Meet the founder</h2>
+      <!-- EDIT: replace the name, title and bio below -->
+      <p class="lead"><b>Founder name</b>, Founder of Creative Opus</p>
+      <p>Creative Opus exists to help leaders craft their life's work with clarity, creativity and lasting impact.</p>
+      <p>[Add two or three sentences about your background, your calling and your leadership experience.]</p>
+      <blockquote>We don't just build brands. We help you create your opus.</blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHETYPE -->
+<section class="sec" id="archetype" style="background:var(--surface)">
+  <div class="wrap arch-grid">
+    <div>
+      <h2>Our brand archetype: the Creator, guided by the Sage</h2>
+      <p class="lead">The Creator wants to build something of enduring value. The Sage keeps that work honest, wise and rooted in truth. Together they describe how we show up for every client.</p>
+      <dl class="facts">
+        <div><dt>Core desire</dt><dd>To help leaders build work that outlasts a season.</dd></div>
+        <div><dt>Gift</dt><dd>Imagination with discernment. We make things beautiful and make them mean something.</dd></div>
+        <div><dt>Promise</dt><dd>Clarity, craft and a faithful expression of your calling.</dd></div>
+        <div><dt>Voice</dt><dd>Warm, plain-spoken and reverent. We explain before we impress.</dd></div>
+        <div><dt>Watch for</dt><dd>Over-polishing at the cost of the message. We ship work that is true first, then refined.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION VISION VALUES -->
+<section class="sec" id="values">
+  <div class="wrap">
+    <h2>What guides our work</h2>
+    <div class="mv">
+      <blockquote><strong>Our mission</strong><p>To empower faith-driven leaders to express their calling with creative clarity and strategic excellence.</p></blockquote>
+      <blockquote><strong>Our vision</strong><p>A world where every church and ministry tells its God-story with boldness, beauty and lasting influence.</p></blockquote>
+    </div>
+    <div class="window" role="group" aria-label="Our four core values">
+      <div class="rose"><svg viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="38" fill="none" stroke="#E3B341" stroke-width="2"/><circle cx="42" cy="42" r="10" fill="#9B2C4F"/><g fill="#2B3A8C"><circle cx="42" cy="18" r="8"/><circle cx="42" cy="66" r="8"/><circle cx="18" cy="42" r="8"/><circle cx="66" cy="42" r="8"/></g><g fill="#E3B341"><circle cx="25" cy="25" r="5"/><circle cx="59" cy="25" r="5"/><circle cx="25" cy="59" r="5"/><circle cx="59" cy="59" r="5"/></g></svg></div>
+      <div class="panes">
+        <div class="pane"><h3>Faith-rooted creativity</h3><p>Divine inspiration fuels the most impactful work.</p></div>
+        <div class="pane"><h3>Purposeful strategy</h3><p>Every design and decision must serve the mission.</p></div>
+        <div class="pane"><h3>Legacy focus</h3><p>We build for timeless impact, not for trends.</p></div>
+        <div class="pane"><h3>Collaborative stewardship</h3><p>We walk alongside clients with care, excellence and discernment.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="sec" id="services" style="background:var(--surface)">
+  <div class="wrap">
+    <h2>How we serve</h2>
+    <p class="lead">Four ways to work with us. Start with one or combine them.</p>
+    <details class="svc" open><summary>Leadership development</summary><div class="body"><p>Coaching and workshops that help ministry and organisational leaders know themselves, lead their teams well and communicate with confidence.</p><ul><li>One-to-one and team coaching</li><li>Leadership workshops and retreats</li><li>Validated-style self-assessments in the Members' Room</li></ul></div></details>
+    <details class="svc"><summary>Brand identity</summary><div class="body"><p>Names, stories, logos and visual systems that express who your church or ministry is and what it is called to do.</p><ul><li>Vision and message clarity</li><li>Logo and visual identity</li><li>Brand guidelines your volunteers can actually use</li></ul></div></details>
+    <details class="svc"><summary>Communication strategy</summary><div class="body"><p>A plan for what you say, to whom, and where, so your community hears one consistent voice across Sunday, social and the street.</p><ul><li>Message and audience mapping</li><li>Channel and content planning</li><li>Internal communication for staff and volunteers</li></ul></div></details>
+    <details class="svc"><summary>Creative assets</summary><div class="body"><p>The practical pieces that carry your story: series graphics, print, web and templates your team can reuse.</p><ul><li>Campaign and series design</li><li>Website and digital presence</li><li>Templates and asset libraries</li></ul></div></details>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" id="process">
+  <div class="wrap">
+    <h2>How we work</h2>
+    <p class="lead">A four-step path from calling to craft.</p>
+    <ol class="steps">
+      <li><h3>Listen</h3><p>We learn your story, your people and the community you serve before we propose anything.</p></li>
+      <li><h3>Discern</h3><p>Together we name the vision, the voice and the priorities that matter most right now.</p></li>
+      <li><h3>Craft</h3><p>We design the identity, message and tools, and test them with the people who will use them.</p></li>
+      <li><h3>Steward</h3><p>We equip your leaders to carry the work forward and check in as it grows.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<section class="sec night" id="members">
+  <div class="wrap">
+    <h2>The Members' Room</h2>
+    <p class="lead">A private space for leaders. Register, activate your membership with a one-time payment through OPay, then take five assessments. Each assessment has one attempt, and your results stay in your account.</p>
+    <div class="tests">
+      <div><b>Johari Window</b><span>See what you and others know about you, and where the gaps are.</span></div>
+      <div><b>DISC Behaviour Profile</b><span>How you act, decide and communicate under pressure.</span></div>
+      <div><b>Blind Spot Check</b><span>The habits that cost leaders trust without them noticing.</span></div>
+      <div><b>Emotional Intelligence</b><span>Self-awareness, self-management, empathy and relationships.</span></div>
+      <div><b>Strengths Compass</b><span>Where you naturally execute, influence, connect and think.</span></div>
+    </div>
+    <div class="row" style="margin-top:22px"><button class="btn" data-open-portal>Register or sign in</button></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec" id="contact">
+  <div class="wrap">
+    <h2>Start a conversation</h2>
+    <p class="lead">Tell us about your ministry and what you want to build. We reply within two working days.</p>
+    <form class="contact" id="contactForm">
+      <div><label for="cName">Your name</label><input id="cName" autocomplete="name" required></div>
+      <div><label for="cEmail">Email</label><input id="cEmail" type="email" autocomplete="email" required></div>
+      <div><label for="cMsg">What would you like help with?</label><textarea id="cMsg" required></textarea></div>
+      <div><button class="btn" type="submit">Send message</button></div>
+      <p class="note" id="cStatus" role="status"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand">Creative Opus</span>
+    <p>Your Ministry. Your Opus.</p>
+    <p>&copy; 2026 Creative Opus. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- MEMBERS PORTAL -->
+<div class="portal night" id="portal" role="dialog" aria-modal="true" aria-labelledby="pTitle" hidden>
+  <div class="pbar"><div class="wrap bar"><span class="brand">Members' Room</span><button class="menu-btn" id="portalClose">Close</button></div></div>
+  <div class="wrap pbody" id="pBody" tabindex="-1"></div>
+</div>
+
+<script>
+/* ---------- settings ---------- */
+const CONTACT_EMAIL = 'hello@creativeopus.example'; // replace with your real address
+// Paste the Web app URL from Apps Script (Deploy > Manage deployments). Until then the site runs in demo mode.
+const API_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+/* ---------- menu ---------- */
+const drawer = document.getElementById('drawer'), menuBtn = document.getElementById('menuBtn');
+function setMenu(open){ drawer.classList.toggle('open',open); menuBtn.setAttribute('aria-expanded',open); document.body.style.overflow=open?'hidden':''; }
+menuBtn.onclick=()=>setMenu(true);
+document.getElementById('menuClose').onclick=()=>setMenu(false);
+drawer.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+
+/* ---------- contact form ---------- */
+document.getElementById('contactForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const n=cName.value.trim(), em=cEmail.value.trim(), m=cMsg.value.trim(), st=document.getElementById('cStatus'), btn=e.target.querySelector('button');
+  if(!LIVE){ location.href=`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Enquiry from '+n)}&body=${encodeURIComponent(m+'\n\n'+n+'\n'+em)}`; return; }
+  btn.disabled=true; st.textContent='Sending\u2026';
+  const res=await api('contact',{name:n,email:em,message:m});
+  btn.disabled=false;
+  if(res.ok){ st.textContent='Thank you. We will reply within two working days.'; e.target.reset(); }
+  else st.textContent=res.error;
+});
+
+/* ---------- helpers ---------- */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=id=>document.getElementById(id);
+
+/* ---------- assessments ---------- */
+const LIKERT=['Never','Rarely','Sometimes','Often','Always'];
+const AGREE=['Strongly disagree','Disagree','Neutral','Agree','Strongly agree'];
+
+const T={
+ johari:{name:'Johari Window',mins:5,blurb:'See what you and others know about you.',type:'johari'},
+ disc:{name:'DISC Behaviour Profile',mins:6,blurb:'How you act, decide and communicate under pressure.',type:'choice',
+  items:[
+   ['In a team project I usually…','take charge and set direction','rally people with energy','keep things steady and supportive','check the details and standards'],
+   ['Under pressure I…','push harder for results','look for ways to lift morale','stay calm and patient','slow down and analyse'],
+   ['People would describe me as…','direct','enthusiastic','dependable','precise'],
+   ['In a meeting I tend to…','drive to a decision','share ideas and stories','listen and seek consensus','ask clarifying questions'],
+   ['When change comes I…','act quickly','see the possibilities','need time to adjust','want the plan and the evidence'],
+   ['My biggest frustration is…','slow progress','being ignored','sudden conflict','sloppy work'],
+   ['I make decisions…','fast and firm','by instinct and input from people','after consulting those affected','after gathering the data'],
+   ['In conflict I…','confront it head-on','talk it out and smooth it over','avoid it to keep the peace','stick to the facts'],
+   ['I am most energised by…','winning a challenge','connecting with people','serving a team','solving a complex problem'],
+   ['As a leader I want to be known for…','results','inspiration','care','excellence']]},
+ blind:{name:'Blind Spot Check',mins:5,blurb:'The habits that cost leaders trust without them noticing.',type:'likert',scale:AGREE,
+  items:[['Listening','I finish people\'s sentences or jump in with solutions.'],['Listening','I am sometimes surprised by how my team reacts to a decision.'],
+   ['Feedback','I rarely ask for feedback on my own leadership.'],['Feedback','When I am challenged, I defend before I consider.'],
+   ['Assumptions','I assume other people share my motives and priorities.'],['Assumptions','I act on what I believe is true without checking it.'],
+   ['Control','I find it hard to delegate things I care about.'],['Control','I am often the busiest person in the room.'],
+   ['Impact','People seem quiet around me in meetings.'],['Impact','I talk more than I realise in group discussions.']]},
+ eq:{name:'Emotional Intelligence',mins:7,blurb:'Self-awareness, self-management, empathy and relationships.',type:'likert',scale:LIKERT,
+  items:[['Self-awareness','I can name what I am feeling as I feel it.'],['Self-awareness','I know which situations trigger my strong reactions.'],['Self-awareness','I understand how my mood affects the people I lead.'],['Self-awareness','I can accurately describe my own strengths and limits.'],
+   ['Self-management','I stay composed when plans fall apart.'],['Self-management','I pause before responding when I am upset.'],['Self-management','I follow through even when I am discouraged.'],['Self-management','I adapt quickly when circumstances change.'],
+   ['Social awareness','I notice when someone is uncomfortable even if they say nothing.'],['Social awareness','I can see a situation from the other person\'s side.'],['Social awareness','I sense the mood of a room when I walk in.'],['Social awareness','I listen to understand, not to reply.'],
+   ['Relationships','I give honest feedback in a way people can receive.'],['Relationships','I resolve disagreements without damaging trust.'],['Relationships','I inspire others to take ownership.'],['Relationships','I build trust quickly with new people.']]},
+ strengths:{name:'Strengths Compass',mins:5,blurb:'Where you naturally execute, influence, connect and think.',type:'likert',scale:AGREE,
+  items:[['Executing','I feel restless until a task is finished.'],['Executing','I turn plans into steady daily action.'],['Executing','I keep commitments even when they are inconvenient.'],
+   ['Influencing','I enjoy persuading people toward a vision.'],['Influencing','I speak up when a group needs direction.'],['Influencing','People look to me to put the message into words.'],
+   ['Relating','I invest deeply in a few close relationships.'],['Relating','I bring people together across differences.'],['Relating','I notice when someone needs encouragement.'],
+   ['Thinking','I love finding patterns other people miss.'],['Thinking','I enjoy imagining future possibilities.'],['Thinking','I like to learn the why behind things.']]}
+};
+const ORDER=['johari','disc','blind','eq','strengths'];
+const WORDS=['Able','Adaptable','Bold','Calm','Caring','Cheerful','Confident','Dependable','Empathetic','Energetic','Humble','Imaginative','Insightful','Organised','Patient','Reflective','Responsible','Self-assertive','Sensible','Warm'];
+
+const DISC_TXT={
+ D:['Dominance','You lead from the front. You are decisive, driven and comfortable with challenge. Grow by slowing down to hear people before you decide.'],
+ I:['Influence','You lead through people. You are optimistic, persuasive and good at building momentum. Grow by following through on detail and listening for the quiet voice.'],
+ S:['Steadiness','You lead through care. You are loyal, patient and a calming presence. Grow by naming your own needs and stepping toward healthy conflict.'],
+ C:['Conscientiousness','You lead through quality. You are careful, analytical and principled. Grow by sharing decisions earlier and trusting good-enough progress.']};
+const EQ_TIP={'Self-awareness':'Keep a short daily note on what you felt and what triggered it.','Self-management':'Practise a one-breath pause before replying when emotions run high.','Social awareness':'In your next meeting, notice who has not spoken and invite them in.','Relationships':'Ask one trusted colleague what feedback they have been holding back.'};
+const ST_TXT={Executing:'You make things happen. Pair this with people who help you see why the work matters.',Influencing:'You move people to act. Pair this with careful listening so your push lands well.',Relating:'You build the trust that holds teams together. Pair this with clear, direct requests.',Thinking:'You see patterns and possibilities. Pair this with partners who turn ideas into action.'};
+const BL_TIP={Listening:'Count to three before offering a solution. Ask "what else?" once more.',Feedback:'Ask two people each month: "What should I do differently?" Then thank them, nothing more.',Assumptions:'Before deciding, write down what you are assuming and check one of those with someone.',Control:'Pick one task to hand off completely this week, including the decision.',Impact:'Speak last in your next meeting and see what changes.'};
+
+/* ---------- member state ---------- */
+const LIVE=!/PASTE_/.test(API_URL);
+const S={token:null,profile:null,results:{},config:{paymentRequired:true,feeNGN:5000}};
+let run=null, pendingRef=null, flash='';
+const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+const pBody=$('pBody'), portal=$('portal');
+const naira=n=>'\u20A6'+Number(n).toLocaleString('en-NG');
+
+/* ---------- demo backend (used only until API_URL is set) ---------- */
+const mock={members:{},tokens:{}};
+async function mockApi(a,d){
+  await new Promise(r=>setTimeout(r,200));
+  const email=mock.tokens[S.token], m=email&&mock.members[email];
+  const prof=x=>({name:x.name,email:x.email,org:x.org,role:x.role,paid:x.paid});
+  const session=x=>{const t='demo'+Math.random().toString(36).slice(2);mock.tokens[t]=x.email;return {ok:true,token:t,profile:prof(x),results:x.results};};
+  if(a==='config') return {ok:true,paymentRequired:true,feeNGN:5000};
+  if(a==='register'){
+    const e=(d.email||'').toLowerCase();
+    if(mock.members[e]) return {ok:false,error:'That email already has an account. Sign in instead.'};
+    const x={name:d.name,email:e,org:d.org,role:d.role,pw:d.password,paid:false,results:{}};
+    mock.members[e]=x; return session(x);
+  }
+  if(a==='login'){
+    const x=mock.members[(d.email||'').toLowerCase()];
+    if(!x||x.pw!==d.password) return {ok:false,error:'Email or password is incorrect. Check both, or register if you are new.'};
+    return session(x);
+  }
+  if(!m) return {ok:false,error:'Please sign in.'};
+  if(a==='me') return {ok:true,profile:prof(m),results:m.results};
+  if(a==='createPayment'){m.paid=true;return {ok:true,demo:true};}
+  if(a==='verifyPayment') return {ok:true,status:'SUCCESS',paid:true};
+  if(a==='saveResult'){
+    if(m.results[d.testId]) return {ok:false,error:'You have already completed this assessment. Each one can be taken once.'};
+    m.results[d.testId]=d.result; return {ok:true};
+  }
+  if(a==='logout'){delete mock.tokens[S.token];return {ok:true};}
+  return {ok:false,error:'Unknown action.'};
+}
+
+/* ---------- API ---------- */
+// POST with no custom headers keeps this a "simple" request, so the browser skips the CORS preflight that Apps Script cannot answer.
+async function api(action,data={}){
+  if(!LIVE) return mockApi(action,data);
+  try{
+    const r=await fetch(API_URL,{method:'POST',body:JSON.stringify({action,token:S.token,...data})});
+    return await r.json();
+  }catch(e){ return {ok:false,error:'Could not reach the server. Check your connection and try again.'}; }
+}
+function setSession(res){ S.token=res.token||S.token; S.profile=res.profile; S.results=res.results||{}; if(LIVE) store.set('co_token',S.token); }
+
+/* ---------- portal shell ---------- */
+function openPortal(){ portal.hidden=false; document.body.style.overflow='hidden'; setMenu(false); route(); }
+function closePortal(){ portal.hidden=true; document.body.style.overflow=''; }
+document.querySelectorAll('[data-open-portal]').forEach(b=>b.addEventListener('click',openPortal));
+$('portalClose').onclick=closePortal;
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(!portal.hidden)closePortal(); else setMenu(false);} });
+function view(html){ pBody.innerHTML=html; portal.scrollTop=0; pBody.focus(); }
+function busy(msg){ view(`<h1 id="pTitle" style="font-size:1.6rem">${esc(msg)}</h1><p class="muted" role="status">One moment.</p>`); }
+function route(){
+  if(!S.profile) return auth('register');
+  if(pendingRef) return verify();
+  if(S.config.paymentRequired&&!S.profile.paid) return payView();
+  dash();
+}
+function signOut(){ api('logout'); S.token=null;S.profile=null;S.results={};run=null;store.del('co_token');auth('signin'); }
+
+/* ---------- auth ---------- */
+function auth(mode,errMsg='',v={}){
+  const reg=mode==='register';
+  view(`
+  <h1 id="pTitle" style="font-size:2rem">${reg?'Create your account':'Welcome back'}</h1>
+  <p class="muted">${reg?'Register, activate your membership, then take five leadership assessments. Each can be taken once.':'Sign in to continue.'}</p>
+  <div class="tabs" role="tablist"><button role="tab" aria-selected="${reg}" id="tReg">Register</button><button role="tab" aria-selected="${!reg}" id="tIn">Sign in</button></div>
+  ${errMsg?`<div class="err" role="alert">${esc(errMsg)}</div><br>`:''}
+  <form class="stack" id="authForm" novalidate>
+    ${reg?`<div><label for="aName">Full name</label><input id="aName" autocomplete="name" value="${esc(v.name||'')}"></div>`:''}
+    <div><label for="aEmail">Email</label><input id="aEmail" type="email" autocomplete="email" inputmode="email" value="${esc(v.email||'')}"></div>
+    ${reg?`<div><label for="aOrg">Church or organisation</label><input id="aOrg" autocomplete="organization" value="${esc(v.org||'')}"></div>
+    <div><label for="aRole">Your role</label><select id="aRole"><option value="">Choose one</option>${['Pastor or ministry leader','Church staff','Nonprofit leader','Business leader','Other'].map(r=>`<option${v.role===r?' selected':''}>${r}</option>`).join('')}</select></div>`:''}
+    <div><label for="aPw">Password${reg?' (at least 8 characters)':''}</label><input id="aPw" type="password" autocomplete="${reg?'new-password':'current-password'}"></div>
+    ${reg?`<label class="check" for="aOk"><input type="checkbox" id="aOk"><span>I understand each assessment can be taken once and results are saved to my account.</span></label>`:''}
+    <button class="btn" id="authBtn" type="submit">${reg?'Create account':'Sign in'}</button>
+  </form>
+  ${LIVE?'':'<p class="note" style="margin-top:22px">Demo mode: the site is not connected to Google Sheets yet, so accounts and payments are simulated and disappear on refresh.</p>'}`);
+  $('tReg').onclick=()=>auth('register'); $('tIn').onclick=()=>auth('signin');
+  $('authForm').onsubmit=e=>{ e.preventDefault(); reg?doRegister():doSignin(); };
+}
+function working(){ const b=$('authBtn'); b.disabled=true; b.textContent='Please wait\u2026'; }
+async function doRegister(){
+  const v={name:aName.value.trim(),email:aEmail.value.trim().toLowerCase(),org:aOrg.value.trim(),role:aRole.value}, pw=aPw.value;
+  if(!v.name) return auth('register','Enter your full name.',v);
+  if(!/^\S+@\S+\.\S+$/.test(v.email)) return auth('register','Enter a valid email address, such as name@church.org.',v);
+  if(!v.role) return auth('register','Choose the role that fits you best.',v);
+  if(pw.length<8) return auth('register','Use a password with at least 8 characters.',v);
+  if(!aOk.checked) return auth('register','Tick the box to confirm you understand each assessment is one attempt.',v);
+  working();
+  const res=await api('register',{...v,password:pw});
+  if(!res.ok) return auth(/already/.test(res.error)?'signin':'register',res.error,v);
+  setSession(res); route();
+}
+async function doSignin(){
+  const email=aEmail.value.trim().toLowerCase(), pw=aPw.value;
+  if(!email||!pw) return auth('signin','Enter your email and password.',{email});
+  working();
+  const res=await api('login',{email,password:pw});
+  if(!res.ok) return auth('signin',res.error,{email});
+  setSession(res); route();
+}
+
+/* ---------- payment (OPay) ---------- */
+function payView(msg){
+  msg=msg||flash; flash='';
+  view(`
+  <h1 id="pTitle" style="font-size:2rem">Activate your membership</h1>
+  <p class="lead" style="color:#C9CBEA">Hello, ${esc(S.profile.name.split(' ')[0])}. A one-time payment of <b>${naira(S.config.feeNGN)}</b> unlocks all five assessments.</p>
+  ${msg?`<div class="err" role="alert">${esc(msg)}</div><br>`:''}
+  <div class="card stack">
+    <div><b>What you get</b><p class="muted" style="margin:.3em 0 0">Johari Window, DISC, Blind Spot Check, Emotional Intelligence and Strengths Compass, with saved results.</p></div>
+    <button class="btn" id="payBtn">Pay with OPay</button>
+    <p class="note" style="margin:0">You will go to OPay's secure checkout page, then return here. We never see or store your card details.</p>
+  </div>
+  <button class="btn ghost sm" id="out" style="margin-top:18px">Sign out</button>`);
+  $('payBtn').onclick=startPayment; $('out').onclick=signOut;
+}
+async function startPayment(){
+  const b=$('payBtn'); b.disabled=true; b.textContent='Opening OPay\u2026';
+  const res=await api('createPayment');
+  if(!res.ok) return payView(res.error);
+  if(res.demo){ S.profile.paid=true; return dash('Demo mode: payment simulated. Your membership is active.'); }
+  location.href=res.cashierUrl;
+}
+async function verify(){
+  busy('Confirming your payment with OPay');
+  const ref=pendingRef, res=await api('verifyPayment',{reference:ref});
+  if(!res.ok){ pendingRef=null; return payView(res.error); }
+  if(res.status==='SUCCESS'){ pendingRef=null; S.profile.paid=true; return dash('Payment received. Your membership is active.'); }
+  if(res.status==='INITIAL'||res.status==='PENDING'){
+    view(`<h1 id="pTitle" style="font-size:1.8rem">Your payment is still processing</h1><p class="muted">OPay has not confirmed it yet. This can take a minute.</p><div class="row"><button class="btn" id="again">Check again</button><button class="btn ghost" id="out">Sign out</button></div><p class="note">Payment reference: ${esc(ref)}</p>`);
+    $('again').onclick=verify; $('out').onclick=signOut; return;
+  }
+  pendingRef=null;
+  payView('That payment did not go through, so you can try again. If your bank shows a debit, email us with this reference: '+ref);
+}
+
+/* ---------- dashboard ---------- */
+function dash(note){
+  const m=S.profile, done=ORDER.filter(id=>S.results[id]).length, C=2*Math.PI*34;
+  view(`
+  ${note?`<div class="card" style="border-color:var(--gold);margin-bottom:20px" role="status">${esc(note)}</div>`:''}
+  <div class="row" style="align-items:center;gap:18px;margin-bottom:8px">
+    <svg width="84" height="84" viewBox="0 0 84 84" role="img" aria-label="${done} of 5 assessments complete"><circle cx="42" cy="42" r="34" fill="none" stroke="rgba(237,239,247,.2)" stroke-width="8"/><circle cx="42" cy="42" r="34" fill="none" stroke="#E3B341" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-done/5)}" transform="rotate(-90 42 42)"/><text x="42" y="48" text-anchor="middle" fill="#EDEFF7" font-size="20" font-family="Georgia,serif">${done}/5</text></svg>
+    <div><h1 id="pTitle" style="font-size:1.9rem;margin:0">Hello, ${esc(m.name.split(' ')[0])}</h1><span class="muted">${done===5?'All assessments complete.':'Each assessment can be taken one time.'}</span></div>
+  </div>
+  <div style="margin-top:22px">
+  ${ORDER.map(id=>{const t=T[id],d=!!S.results[id];return `<div class="trow"><div><b>${t.name}</b><small>${t.mins} min \u00B7 ${t.blurb}</small></div>${d?`<div style="text-align:right"><div class="done">Completed</div><button class="btn ghost sm" data-res="${id}">View results</button></div>`:`<button class="btn sm" data-start="${id}">Start</button>`}</div>`}).join('')}
+  </div>
+  <div class="row" style="margin-top:28px"><a class="btn ghost sm" href="mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Book a debrief')}">Book a debrief with a coach</a><button class="btn ghost sm" id="out">Sign out</button></div>`);
+  pBody.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>startTest(b.dataset.start));
+  pBody.querySelectorAll('[data-res]').forEach(b=>b.onclick=()=>showResult(b.dataset.res));
+  $('out').onclick=signOut;
+}
+
+/* ---------- test runner ---------- */
+function startTest(id){
+  if(S.results[id]) return showResult(id);
+  run={id,i:0,a:[],stage:0,self:[],peer:[]};
+  T[id].type==='johari'?johari():question();
+}
+function head(t,i,n){ return `<button class="btn ghost sm" id="exit">Exit (progress is not saved)</button><h1 id="pTitle" style="font-size:1.6rem;margin:20px 0 4px">${t.name}</h1><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${i}"><i style="width:${(i/n)*100}%"></i></div>`; }
+function question(){
+  const t=T[run.id], n=t.items.length, it=t.items[run.i], i=run.i, sel=run.a[i];
+  let body;
+  if(t.type==='choice'){
+    body=`<p class="note">Question ${i+1} of ${n}. Choose the option most like you.</p><h2 style="font-size:1.5rem">${esc(it[0])}</h2>`+['D','I','S','C'].map((k,j)=>`<button class="opt" aria-pressed="${sel===k}" data-v="${k}">${esc(it[j+1])}</button>`).join('');
+  } else {
+    body=`<p class="note">Statement ${i+1} of ${n}</p><h2 style="font-size:1.5rem">${esc(it[1])}</h2><div class="scale" role="group" aria-label="Your answer">${t.scale.map((l,j)=>`<button class="opt" aria-pressed="${sel===j+1}" data-v="${j+1}"><b>${j+1}</b>${l}</button>`).join('')}</div>`;
+  }
+  view(head(t,i,n)+body+`<div class="row" style="margin-top:20px">${i>0?'<button class="btn ghost sm" id="back">Back</button>':''}</div>`);
+  pBody.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{ run.a[i]=t.type==='choice'?b.dataset.v:+b.dataset.v; if(i<n-1){run.i++;question();} else finish(); });
+  if($('back')) $('back').onclick=()=>{run.i--;question();};
+  $('exit').onclick=()=>{run=null;dash();};
+}
+function johari(){
+  const s=run.stage, key=s?'peer':'self', set=run[key];
+  view(`<button class="btn ghost sm" id="exit">Exit (progress is not saved)</button>
+  <h1 id="pTitle" style="font-size:1.6rem;margin:20px 0 4px">Johari Window</h1>
+  <div class="progress"><i style="width:${s?66:25}%"></i></div>
+  <p class="note">Step ${s+1} of 2</p>
+  <h2 style="font-size:1.5rem">${s?'Choose 6 words other people would use to describe you':'Choose 6 words that describe you'}</h2>
+  <p class="muted">${s?'Think of colleagues, family and the people you lead. Your best estimate is fine. For real feedback, ask them to pick from this same list.':'Go with your first instinct.'}</p>
+  <div class="chips">${WORDS.map(w=>`<button class="chip" aria-pressed="${set.includes(w)}" data-w="${w}">${w}</button>`).join('')}</div>
+  <p class="note" id="cnt">${set.length} of 6 chosen</p>
+  <div class="row">${s?'<button class="btn ghost sm" id="back">Back</button>':''}<button class="btn" id="next" ${set.length===6?'':'disabled'}>${s?'See my Johari Window':'Continue'}</button></div>`);
+  pBody.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{
+    const w=b.dataset.w, k=set.indexOf(w);
+    if(k>-1) set.splice(k,1); else if(set.length<6) set.push(w); else return;
+    johari();
+  });
+  $('next').onclick=()=>{ if(!s){run.stage=1;johari();} else finish(); };
+  if($('back')) $('back').onclick=()=>{run.stage=0;johari();};
+  $('exit').onclick=()=>{run=null;dash();};
+}
+
+/* ---------- scoring ---------- */
+function groupScore(items,a,max){ const g={}; items.forEach((it,i)=>{ (g[it[0]]=g[it[0]]||{s:0,n:0}); g[it[0]].s+=a[i]; g[it[0]].n++; });
+  return Object.entries(g).map(([k,v])=>({k,pct:Math.round(((v.s-v.n)/(v.n*(max-1)))*100)})); }
+function compute(){
+  const id=run.id, t=T[id];
+  if(id==='disc'){ const c={D:0,I:0,S:0,C:0}; run.a.forEach(k=>c[k]++); return Object.entries(c).map(([k,v])=>({k,pct:Math.round(v/run.a.length*100)})).sort((a,b)=>b.pct-a.pct); }
+  if(id==='johari'){ const s=run.self,p=run.peer; return {open:s.filter(w=>p.includes(w)),hidden:s.filter(w=>!p.includes(w)),blind:p.filter(w=>!s.includes(w)),unknown:WORDS.filter(w=>!s.includes(w)&&!p.includes(w))}; }
+  return groupScore(t.items,run.a,5);
+}
+// The server keeps the one-attempt rule. If saving fails, answers stay on screen so nothing is lost.
+async function finish(){
+  const id=run.id, r=compute();
+  busy('Saving your results');
+  const res=await api('saveResult',{testId:id,result:r});
+  if(res.ok){ S.results[id]=r; run=null; return showResult(id); }
+  const me=await api('me'); if(me.ok) S.results=me.results||{};
+  if(S.results[id]){ run=null; return showResult(id); }
+  view(`<h1 id="pTitle" style="font-size:1.6rem">We could not save your results</h1><div class="err" role="alert">${esc(res.error)}</div><div class="row" style="margin-top:18px"><button class="btn" id="retry">Try saving again</button><button class="btn ghost" id="bk">Back to dashboard</button></div>`);
+  $('retry').onclick=finish; $('bk').onclick=()=>{run=null;route();};
+}
+
+/* ---------- results ---------- */
+const bars=l=>l.map(x=>`<div class="bar-row"><div class="l"><span>${esc(DISC_TXT[x.k]?DISC_TXT[x.k][0]:x.k)}</span><b>${x.pct}%</b></div><div class="t"><i style="width:${x.pct}%"></i></div></div>`).join('');
+function showResult(id){
+  const t=T[id], r=S.results[id]; let body='';
+  if(id==='disc'){
+    body=bars(r)+`<h3 style="margin-top:22px">Your primary style: ${DISC_TXT[r[0].k][0]}</h3><p>${DISC_TXT[r[0].k][1]}</p><h3>Your secondary style: ${DISC_TXT[r[1].k][0]}</h3><p>${DISC_TXT[r[1].k][1]}</p>`;
+  } else if(id==='eq'){
+    const s=[...r].sort((a,b)=>b.pct-a.pct), lo=s[s.length-1];
+    body=bars(r)+`<h3 style="margin-top:22px">Strongest area: ${s[0].k}</h3><h3>Room to grow: ${lo.k}</h3><p>${EQ_TIP[lo.k]}</p>`;
+  } else if(id==='strengths'){
+    const s=[...r].sort((a,b)=>b.pct-a.pct);
+    body=bars(s)+`<h3 style="margin-top:22px">Your lead strength: ${s[0].k}</h3><p>${ST_TXT[s[0].k]}</p><h3>Your second strength: ${s[1].k}</h3><p>${ST_TXT[s[1].k]}</p><p class="note">The Strengths Compass is Creative Opus's own tool. It is not CliftonStrengths and does not use Gallup's items.</p>`;
+  } else if(id==='blind'){
+    const s=[...r].sort((a,b)=>b.pct-a.pct);
+    body=`<p class="muted">A higher bar means a greater chance of a blind spot in that area.</p>`+bars(s)+`<h3 style="margin-top:22px">Look first at: ${s[0].k}</h3><p>${BL_TIP[s[0].k]}</p><h3>Then: ${s[1].k}</h3><p>${BL_TIP[s[1].k]}</p>`;
+  } else {
+    const l=a=>a.length?a.join(', '):'None';
+    body=`<div class="jo"><div><b>Open</b><span>${l(r.open)}</span></div><div><b>Blind</b><span>${l(r.blind)}</span></div><div><b>Hidden</b><span>${l(r.hidden)}</span></div><div><b>Unknown</b><span>${r.unknown.length} words chosen by neither view</span></div></div>
+    <p><b>Open</b> words are known to you and others. <b>Blind</b> words are what others may see that you did not claim. <b>Hidden</b> words are what you see in yourself that others may not. Grow your Open area by sharing more and asking for feedback.</p>
+    <p class="note">Others' words here are your own estimate. A coach can run this with real feedback from your team.</p>`;
+  }
+  view(`<button class="btn ghost sm" id="bk">Back to dashboard</button><h1 id="pTitle" style="font-size:1.8rem;margin:20px 0 6px">${t.name}</h1><p class="muted">Completed. This assessment is now locked to one attempt.</p><div class="card">${body}</div><div class="row" style="margin-top:22px"><a class="btn sm" href="mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Debrief: '+t.name)}">Book a debrief</a></div>`);
+  $('bk').onclick=()=>dash();
+}
+
+/* ---------- founder photo fallback ---------- */
+(function(){
+  const img=document.querySelector('#founderPhoto img'); if(!img) return;
+  const miss=()=>img.parentElement.classList.add('empty');
+  img.addEventListener('error',miss);
+  if(img.complete&&img.naturalWidth===0) miss();
+})();
+
+/* ---------- start-up ---------- */
+(async function init(){
+  const q=new URLSearchParams(location.search), p=q.get('payment');
+  if(p==='return') pendingRef=q.get('ref');
+  if(p==='cancel') flash='Payment was cancelled. You can try again whenever you are ready.';
+  if(p) history.replaceState(null,'',location.pathname);
+  const cfg=await api('config');
+  if(cfg.ok) S.config={paymentRequired:cfg.paymentRequired,feeNGN:cfg.feeNGN};
+  S.token=LIVE?store.get('co_token'):null;
+  if(S.token){
+    const me=await api('me');
+    if(me.ok){S.profile=me.profile;S.results=me.results||{};} else {S.token=null;store.del('co_token');}
+  }
+  if(p) openPortal();
+})();
+</script>
+</body>
+</html>
